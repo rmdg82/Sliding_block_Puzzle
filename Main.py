@@ -4,13 +4,15 @@
 import random
 import copy
 import time
-
-#import pdb
-
 import Game as G
 import Heuristics as H 
 
-#Various useful functions
+
+# Initialize a variable used to track execution time 
+starting_date=""
+
+
+# Functions
 def execute(game,move):
 	'''Execute a move(str) in a game.
 	'''
@@ -24,6 +26,7 @@ def execute(game,move):
 		game.down()
 	else:
 		print("Move not recognized!")
+
 
 def argmin(game,heuristic):
 	'''Given a game (with a game.state) and an heuristic return the possible move as a string with the min value of heuristic.
@@ -76,6 +79,7 @@ def pick(game,heuristic):
 def backpath(game):
 	return game.state.previous_actions
 
+
 def from_list_to_state(orderedValues,size):
 	'''	From a list return a state with table values got in order from that list.
 	'''
@@ -127,80 +131,87 @@ def search(game,heuristic,attempt=1,depth=250):
 		return True
 
 
+
 #MAIN
+def main():
+	print("Sliding Puzzle Solver!\n")
+	#Get size of the board from user
+	size=int()
+	while True:
+		try:
+			size=int(input("Insert the size of the board:"))
+			break
+		except ValueError:
+			print("Insert a positive natural number > 1 !")
+			continue
+		if size < 2:
+			print("Insert a positive natural number > 1 !")
+		else:
+			break
 
-print("Sliding Puzzle Solver!\n")
-#Get size of the board from user
-size=int()
-while True:
-	try:
-		size=int(input("Insert the size of the board:"))
-		break
-	except ValueError:
-		print("Insert a positive natural number > 1 !")
-		continue
-	if size < 2:
-		print("Insert a positive natural number > 1 !")
-	else:
-		break
-
-game=G.Game(size)
-heuristic=H.Heuristics(game)
-
-
-inserted_value=str()
-inserted_position=[]
-initial_state=None
-
-#Get the initial state (doesn't check the user input properly :()
-while not (inserted_value.upper() == 'Y') or (inserted_value.upper() == 'N'):
-	inserted_value=input("Would you like to start from a random position (Y/N)?").upper()
-	if inserted_value == 'Y':
-		#Start with a random initial position
-		game.shuffle()
-		#Save the initial state/table
-		initial_state=copy.deepcopy(game.state)
-		break
-	if inserted_value.upper() == 'N':
-		for i in range(size**2):
-			value=input(f"Insert the value number {i+1}: ")
-			try:
-				inserted_position.append(int(value))
-			except ValueError:
-				print("Insert a positive natural number! Exiting ...")
-				break
-
-		s=from_list_to_state(inserted_position,size)
-		game.set_state(s)
-		initial_state=copy.deepcopy(game.state)
-		break
+	game=G.Game(size)
+	heuristic=H.Heuristics(game)
 
 
-game.set_state(initial_state)
-print("Initial state:")
-game.print();print()
+	inserted_value=str()
+	inserted_position=[]
+	initial_state=None
 
-input("Press Enter to continue ...")
-starting_date=time.asctime(time.localtime(time.time()))
-print(f"Start searching at {starting_date}",)
-time.sleep(1)
-searching=True
-attempt=1
+	#Get the initial state (doesn't check the user input properly :()
+	while not (inserted_value.upper() == 'Y') or (inserted_value.upper() == 'N'):
+		inserted_value=input("Would you like to start from a random position (Y/N)?").upper()
+		if inserted_value == 'Y':
+			#Start with a random initial position
+			game.shuffle()
+			#Save the initial state/table
+			initial_state=copy.deepcopy(game.state)
+			break
+		if inserted_value.upper() == 'N':
+			for i in range(size**2):
+				value=input(f"Insert the value number {i+1}: ")
+				try:
+					inserted_position.append(int(value))
+				except ValueError:
+					print("Insert a positive natural number! Exiting ...")
+					break
 
-#Search routine
-while searching:
-	searching=not search(game,heuristic,attempt)
-	#If search return False executes the following if clause
-	if searching:
-		print("I'll try again from:")
-		#Clean the game and set the previous initial state
-		attempt+=1
-		game.set_state(initial_state)
-		game.explored=[]
-		game.state.previous_actions=[]
-		game.print();print()
-		print("Start again in 2 seconds ...")
-		time.sleep(2)
-		#input("Press Enter to continue ...")
-		searching=True
-		continue
+			s=from_list_to_state(inserted_position,size)
+			game.set_state(s)
+			initial_state=copy.deepcopy(game.state)
+			break
+
+
+	game.set_state(initial_state)
+	print("Initial state:")
+	game.print();print()
+
+	input("Press Enter to continue ...")
+	starting_date=time.asctime(time.localtime(time.time()))
+	print(f"Start searching at {starting_date}",)
+	time.sleep(1)
+	searching=True
+	attempt=1
+
+	#Search routine
+	while searching:
+		searching=not search(game,heuristic,attempt)
+		#If search return False executes the following if clause
+		if searching:
+			print("I'll try again from:")
+			#Clean the game and set the previous initial state
+			attempt+=1
+			game.set_state(initial_state)
+			game.explored=[]
+			game.state.previous_actions=[]
+			game.print();print()
+			print("Start again in 2 seconds ...")
+			time.sleep(2)
+			#input("Press Enter to continue ...")
+			searching=True
+			continue
+
+if __name__ == "__main__":
+	main()
+else:
+	print("Module imported, main() not executed!")
+
