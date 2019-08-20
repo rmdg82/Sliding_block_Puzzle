@@ -1,0 +1,50 @@
+#GAME MODEL - Sliding puzzle
+
+State():
+	'''Obj State keeps track of the parent and is represented by a table (matrix=list of lists)'''
+	def __init__(self,parent=None,table):
+		self.parent=parent
+
+Game():
+	'''Obj Game'''
+	def __init__(self, initialState=None, table):
+		self.initialState=initialState # ???
+		self.state=State(table)
+
+	def neighbours(self.state):
+		return "set"
+
+	def solution(self.state):
+		return True/False
+
+
+# FUNCTIONS
+
+def ArgMin(setOfStates):
+	return min(Heuristics)
+
+def pick(setOfStates):
+	return ArgMin(setOfStates)
+
+def backpath(state):
+	return reversed(lstate)
+
+def search(game,state0):
+	# Algorithm from slides
+	Horizon = set([])
+    Explored = set([])
+    Horizon.add(state0)
+    while (len(Horizon) > 0):
+        view = pick(Horizon)
+        if not (view is None):
+            if game.solution(view):
+                return backpath(view)
+            Explored.add(view)
+            Horizon = Horizon | (game.neighbors(view) - Explored)
+    return None
+
+
+# MAIN
+1-Definisci Heuristics (con modulo, maybe) OK
+2-Crea game con stato iniziale (state0) OK
+3-Solution=search(game,state0)

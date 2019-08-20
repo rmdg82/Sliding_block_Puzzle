@@ -1,0 +1,67 @@
+#GAME MODEL
+
+Representation():
+	def __init__ (table):
+	
+	def isAmmissible(self):
+		return True/False
+
+
+State():
+	def __init__(parent,Representation,Heuristic):
+		self.representation = Representation(table)
+		self.parent = parent
+		self.H = Heuristic
+
+
+Game():
+	def __init__(State=InitialState,Heuristic):
+		self.state = InitialState
+	
+	def getState(self):
+		return self.state
+
+
+RealGame(Game):
+	def __init__(table,Heuristic):
+		self.state = State(table,Heuristic)
+	
+	def neighbours(self.state):
+		return "set"
+	
+	def solution(self,state):
+		return True/False
+	
+---------------------------------
+
+#FUNCTIONS
+
+def argMin(setOfStates):
+	return min(something?)
+
+def pick(setOfStates):
+	return argMin(SetOfStates)
+
+def bakpath(state):
+	return reversed(LStates)
+
+def search(game,state0):
+	#Alg dispense
+	sHorizon = set([])
+    sExplored = set([])
+    sHorizon.add(state0)
+    while (len(sHorizon) > 0):
+        view = pick(sHorizon)
+        if not (view is None):
+            if game.solution(view):
+                return backpath(view)
+            sExplored.add(view)
+            sHorizon = sHorizon | (game.neighbors(view) - sExplored)
+    return None
+
+#MAIN
+1-Definisci Heuristics (con modulo, maybe)
+2-Crea game con stato iniziale (state0)
+3-Solution=search(game,state0)
+
+
