@@ -33,10 +33,10 @@ class Game:
 	def __init__(self,size=3):
 		'''Initialize the board (matrix) of size*size elements'''
 		self.size=size
-		#Generate a 0 filled table
+		# Generate a 0 filled table
 		ZeroTable=[[0 for i in range(self.size)] for i in range(self.size)]
 		self.state=State(ZeroTable,self.size)
-		#We generate the solution table during instantiation of an obj Game
+		# We generate the solution table during instantiation of an obj Game
 		self.SOLUTION=[]
 		for row in range(self.size):
 			#Create each lines and add to SOLUTION
@@ -44,11 +44,11 @@ class Game:
 			self.SOLUTION.append(line)
 		self.SOLUTION[self.size-1][self.size-1]=0
 
-		#Create a set with all the explored states of the game
+		# Create a set with all the explored states of the game
 		self.explored=[]
 
 	def print(self):
-		'''Print in a unfashinable way the table of self.state'''
+		'''Print in a unfashionable way the table of self.state'''
 		self.state.print()
 
 	def print_actions(self):
@@ -63,14 +63,14 @@ class Game:
 
 	def shuffle(self,times=50):
 		'''Create shuffle starting from self.SOLUTION and execute 50 random moves'''
-    	#New shuffle, make 50 random moves starting from a newly create solution
+    	# New shuffle, make 50 random moves starting from a newly create solution
 		solution_list=[]
 		for row in range(self.size):
 			#Create each lines and add to SOLUTION
 			line=[(row)*(self.size)+j for j in range(1,self.size+1)]
 			solution_list.append(line)
 		solution_list[self.size-1][self.size-1]=0
-		#Make random choices 
+		# Make random choices 
 		self.state=State(solution_list,self.size)
 		for i in range(times):
 			choosen_action=random.sample(self.valid_moves(),1)
@@ -82,7 +82,7 @@ class Game:
 				self.right()
 			elif choosen_action[0]=='left':
 				self.left()
-		#Clean the preavious_actions list
+		# Clean the preavious_actions list
 		self.shuffled=copy.deepcopy(self.state.previous_actions)
 		self.state.previous_actions=[]
 		self.explored=[]
@@ -95,41 +95,41 @@ class Game:
 		|4|0|5|	=>	|4|2|5|
 		|6|7|8|		|6|7|8| '''
 
-		#Check if 0 is the first row
+		# Check if 0 is the first row
 		if 0 in self.state.table[0]:
 			return False
 
-		#Add 'Up' to the previous_actions list
+		# Add 'Up' to the previous_actions list
 		self.state.previous_actions.append('up')
 		
-		#Deep copy the current state and append to game.explored before changind game.state
+		# Deep copy the current state and append to game.explored before changind game.state
 		copied_state=copy.deepcopy(self.state)
 		self.explored.append(copied_state)
 
-		#Find the value 0 in the last 2 rows
+		# Find the value 0 in the last 2 rows
 		for row in range(1,self.size):
 			for col in range(self.size):
 				if self.state.table[row][col]==0:
-					#Switch the value between 0 and the number above
+					# Switch the value between 0 and the number above
 					value_to_switch=self.state.table[row-1][col]
 					self.state.table[row][col]=value_to_switch
 					self.state.table[row-1][col]=0
 
 	def down(self):
-		'''Move 0 une square down'''
-		#Check if 0 is in the last row
+		'''Move 0 one square down'''
+		# Check if 0 is in the last row
 		if 0 in self.state.table[self.size-1]:
 			return False
 
-		#Add 'Down' to the previous_actions list
+		# Add 'Down' to the previous_actions list
 		self.state.previous_actions.append('down')
 
-		#Deep copy the current state and append to game.explored before changind game.state
+		# Deep copy the current state and append to game.explored before changind game.state
 		copied_state=copy.deepcopy(self.state)
 		self.explored.append(copied_state)
 
-		#Find the value 0 in the rows except the last one
-		#We have to move down only the first time we enconter the 0 value and then exit. We use a count variable.
+		# Find the value 0 in the rows except the last one
+		# We have to move down only the first time we enconter the 0 value and then exit. We use a count variable.
 		count=0
 		for row in range(self.size-1):
 			for col in range(self.size):
@@ -142,19 +142,19 @@ class Game:
 
 	def right(self):
 		'''Move 0 une square to the right'''
-		#Check if 0 is in the last column
+		# Check if 0 is in the last column
 		for i in range(self.size):
 			if self.state.table[i][self.size-1] == 0:
 				return False
 
-		#Add 'Right' to the previous_actions list
+		# Add 'Right' to the previous_actions list
 		self.state.previous_actions.append('right')
 
-		#Deep copy the current state and append to game.explored before changind game.state
+		# Deep copy the current state and append to game.explored before changind game.state
 		copied_state=copy.deepcopy(self.state)
 		self.explored.append(copied_state)
 
-		#Find the value 0 in the all columns except the last one. Use a count var to move it only the first time we encounter the 0 value
+		# Find the value 0 in the all columns except the last one. Use a count var to move it only the first time we encounter the 0 value
 		count=0
 		for row in range(self.size):
 			for col in range(self.size-1):
@@ -167,19 +167,19 @@ class Game:
 	
 	def left(self):
 		'''Move 0 une square to the left'''
-		#Check if 0 is in the first column
+		# Check if 0 is in the first column
 		for i in range(self.size):
 			if self.state.table[i][0] == 0:
 				return False
 		
-		#Add 'Left' to the previous_actions list
+		# Add 'Left' to the previous_actions list
 		self.state.previous_actions.append('left')
 
-		#Deep copy the current state and append to game.explored before changind game.state
+		# Deep copy the current state and append to game.explored before changind game.state
 		copied_state=copy.deepcopy(self.state)
 		self.explored.append(copied_state)		
 
-		#Find the value 0 in the all columns except the first one. Use a count var to move it only the first time we encounter the 0 value
+		# Find the value 0 in the all columns except the first one. Use a count var to move it only the first time we encounter the 0 value
 		count=0
 		for row in range(self.size):
 			for col in range(1,self.size):
@@ -188,37 +188,22 @@ class Game:
 					self.state.table[row][col]=value_to_switch
 					self.state.table[row][col-1]=0
 					count +=1
-	
-	# Not necessary, used only for testing
-	'''
-	def opposite(self,move):
-		if move=='right':
-			return 'left'
-		elif move=='left':
-			return 'right'
-		elif move=='up':
-			return 'down'
-		elif move=='down':
-			return 'up'
-		else:
-			return False
-	'''
 
 	def valid_moves(self):
 		'''Given the current self.state output a list with all the possible moves among [Up,Down,Right,Left]'''
 		possible_actions=set()
-		#Check possible action without executing them
-		#Up case
+		# Check possible action without executing them
+		# Up case
 		if not 0 in self.state.table[0]:
 			possible_actions.add('up')
-		#Down case	
+		# Down case	
 		if not 0 in self.state.table[self.size-1]:
 			possible_actions.add('down')
-		#Right case
+		# Right case
 		last_col=[self.state.table[i][self.size-1] for i in range(self.size)]
 		if all(last_col):
 			possible_actions.add('right')
-		#Left case
+		# Left case
 		first_col=[self.state.table[i][0] for i in range(self.size)]
 		if all(first_col):
 			possible_actions.add('left')
@@ -237,15 +222,7 @@ class Game:
 			return True
 		else:
 			return False
-
-
-
-
-
-
-
-
-					
+			
 
 				
 
