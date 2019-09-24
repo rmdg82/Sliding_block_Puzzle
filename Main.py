@@ -1,5 +1,5 @@
-#A solver for the n*n block puzzle 
-#Exercise to implement various kinds of search (DFS, BFS, A*, IDA*, etc)
+# A solver for a generic n*n block puzzle 
+# Exercise to implement various kinds of search (DFS, BFS, A*, IDA*, etc)
 
 import random
 import copy
@@ -32,15 +32,15 @@ def argmin(game,heuristic):
 	'''Given a game (with a game.state) and an heuristic return the possible move as a string with the min value of heuristic.
 	We execute all the possible moves in a copied game and we pick the minimum heuristic value.
 	'''
-	#Dict with all possible moves as a key and heuristic as a value
+	# Dictionary with all possible moves as a key and heuristic as a value
 	hmoves=dict.fromkeys(game.valid_moves())
-	#Deepcopy the game in order to not modify the original obj
+	# Deepcopy the game in order to not modify the original obj
 	for key in hmoves.keys():
 		copied_game=copy.deepcopy(game)
 		execute(copied_game,key)
 		hmoves[key]=heuristic.AStar_distance(copied_game.state)
 		del copied_game
-	#Return non-decreasing-ordered by value dict hmoves 
+	# Return non-decreasing-ordered by value dict hmoves 
 	return sorted(hmoves.items(),key=lambda x:x[1])
 
 	
@@ -49,18 +49,18 @@ def pick(game,heuristic):
 	It also check if the state to reach has already been reached in the past, comparing with a game.explored list of states.
 	 '''
 	argmin_list=argmin(game,heuristic)
-	#Create min_list which will contain all the items with the min value. 
-	#Then we will shuffle them and append to the begining of argmin_list, just to have some randomness to avoid loops
+	# Create min_list which will contain all the items with the min value. 
+	# Then we will shuffle them and append to the begining of argmin_list, just to have some randomness to avoid loops
 	min_val=argmin_list[0][1]
 	min_list=[]
 	for item in argmin_list:
 		if item[1]==min_val:
 			min_list.append(item)
 	random.shuffle(min_list)
-	#Remove from argmin_list the min values and concatenate the shuffled min_list at the beginning 
+	# Remove from argmin_list the min values and concatenate the shuffled min_list at the beginning 
 	argmin_list=[item for item in argmin_list if item[1]!=min_val]
 	argmin_list=min_list+argmin_list
-	#Create a new game, deepcoping the original one
+	# Create a new game, deepcoping the original one
 	new_argmin_list=[]
 	for items in argmin_list:
 		copied_game=copy.deepcopy(game)
@@ -132,10 +132,10 @@ def search(game,heuristic,attempt=1,depth=250):
 
 
 
-#MAIN
+# MAIN
 def main():
 	print("Sliding Puzzle Solver!\n")
-	#Get size of the board from user
+	# Get size of the board from user
 	size=int()
 	while True:
 		try:
@@ -157,13 +157,13 @@ def main():
 	inserted_position=[]
 	initial_state=None
 
-	#Get the initial state (doesn't check the user input properly :()
+	# Get the initial state (doesn't check the user input properly :()
 	while not (inserted_value.upper() == 'Y') or (inserted_value.upper() == 'N'):
 		inserted_value=input("Would you like to start from a random position (Y/N)?").upper()
 		if inserted_value == 'Y':
-			#Start with a random initial position
+			# Start with a random initial position
 			game.shuffle()
-			#Save the initial state/table
+			# Save the initial state/table
 			initial_state=copy.deepcopy(game.state)
 			break
 		if inserted_value.upper() == 'N':
@@ -192,13 +192,13 @@ def main():
 	searching=True
 	attempt=1
 
-	#Search routine
+	# Search routine
 	while searching:
 		searching=not search(game,heuristic,attempt)
-		#If search return False executes the following if clause
+		# If search return False executes the following if clause
 		if searching:
 			print("I'll try again from:")
-			#Clean the game and set the previous initial state
+			# Clean the game and set the previous initial state
 			attempt+=1
 			game.set_state(initial_state)
 			game.explored=[]
@@ -206,7 +206,7 @@ def main():
 			game.print();print()
 			print("Start again in 2 seconds ...")
 			time.sleep(2)
-			#input("Press Enter to continue ...")
+			# input("Press Enter to continue ...")
 			searching=True
 			continue
 
