@@ -1,4 +1,5 @@
 # Python byte-compiled stuff
 __pycache__/
 *.py[cod]
+LECTURES
 

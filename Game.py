@@ -189,6 +189,8 @@ class Game:
 					self.state.table[row][col-1]=0
 					count +=1
 	
+	# Not necessary, used only for testing
+	'''
 	def opposite(self,move):
 		if move=='right':
 			return 'left'
@@ -200,6 +202,7 @@ class Game:
 			return 'up'
 		else:
 			return False
+	'''
 
 	def valid_moves(self):
 		'''Given the current self.state output a list with all the possible moves among [Up,Down,Right,Left]'''
