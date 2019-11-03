@@ -3,3 +3,9 @@ __pycache__/
 *.py[cod]
 LECTURES
 
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/Sliding_block_Puzzle.iml
+/.idea/vcs.xml
