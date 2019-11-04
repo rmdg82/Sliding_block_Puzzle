@@ -25,7 +25,7 @@ def pick(setOfStates):
 def backpath(state):
     padre = state.parent
     lStates = [state]
-    while padre!=None:
+    while padre is not None:
         lStates.add(padre)
         padre = padre.parent
     return reversed(lStates)

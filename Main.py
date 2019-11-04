@@ -29,8 +29,8 @@ def execute(game, move):
 
 def argmin(game, heuristic):
     '''Given a game (with a game.state) and an heuristic return the possible move as a string with the min value of heuristic.
-	We execute all the possible moves in a copied game and we pick the minimum heuristic value.
-	'''
+    We execute all the possible moves in a copied game and we pick the minimum heuristic value.
+    '''
     # Dictionary with all possible moves as a key and heuristic as a value
     hmoves = dict.fromkeys(game.valid_moves())
     # Deepcopy the game in order to not modify the original obj
@@ -89,7 +89,7 @@ def from_list_to_state(orderedValues, size):
     for i in admissible_values:
         if orderedValues.count(i) != 1:
             raise ValueError
-    # Creata a size*size table filled with 0's
+    # Create a size*size table filled with 0's
     table = [[0 for i in range(size)] for i in range(size)]
     count = 0
     for row in range(size):
